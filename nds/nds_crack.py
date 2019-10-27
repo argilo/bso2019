@@ -4,7 +4,7 @@ import nds
 import os
 import socket
 
-HOST = "127.0.0.1"
+HOST = "54.173.197.50"
 PORT = 9999
 
 
