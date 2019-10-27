@@ -1,0 +1,5 @@
+We tuned our radio to 3.33 MHz and recorded this alien signal.
+At what time did the recording begin? Answer in ISO 8601 format,
+for example: flag{2017-12-24T22:02:58Z}
+
+flag{2019-10-26T17:49:07Z}
