@@ -1,3 +1,5 @@
+Tick tock
+
 While tuning around, we heard this alien signal at 3.33 MHz.
 At what time did the recording begin? Answer in ISO 8601 format,
 for example: flag{2017-12-24T22:02:58Z}

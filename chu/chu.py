@@ -171,7 +171,7 @@ class chu(gr.top_block, Qt.QWidget):
         self.hilbert_fc_0 = filter.hilbert_fc(65, firdes.WIN_HAMMING, 6.76)
         self.ham_chu_decode_0 = ham.chu_decode()
         self.digital_binary_slicer_fb_0 = digital.binary_slicer_fb()
-        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/argilo/Documents/bso2019/chu/alien-clock.wav', True)
+        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/argilo/Documents/bso2019/chu/alien.wav', True)
         self.blocks_multiply_xx_2 = blocks.multiply_vcc(1)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
         self.audio_sink_0_0 = audio.sink(48000, '', True)
