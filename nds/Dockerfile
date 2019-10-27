@@ -1,4 +1,4 @@
-FROM python:3-slim
+FROM python:slim
 WORKDIR /app
 COPY nds.py server.py ./
 RUN groupadd -r app && useradd -r -g app app
