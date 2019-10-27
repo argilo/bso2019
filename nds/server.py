@@ -4,9 +4,15 @@ import nds
 import os
 import socketserver
 
+welcome_message = """AES is barely two decades old. Not nearly enough to be trusted yet.
+So we're going with a cipher that's been around since the 1970's.
+It's the only way to be sure our most valuable secret will stay safe:"""
+
 
 class MyTCPHandler(socketserver.StreamRequestHandler):
-    flag = "flag{xxxxxxxxxxxxxxxxxxxxxxxxxx}".encode()
+    with open("flag.txt", "rb") as f:
+        flag = f.read(32)
+
     key = os.urandom(256)
 
     def handle(self):
@@ -14,11 +20,11 @@ class MyTCPHandler(socketserver.StreamRequestHandler):
         flag_encrypted = nds.cipher(self.flag, self.key)
 
         try:
-            output.write("Welcome!".encode())
-            output.write(("\n" + flag_encrypted.hex()).encode())
+            output.write(welcome_message.encode())
+            output.write(("\n\n" + flag_encrypted.hex() + "\n").encode())
 
             while True:
-                output.write("\nInput? ".encode())
+                output.write("\nPlaintext or ciphertext input? ".encode())
                 data = input.readline().decode().strip()
 
                 try:
@@ -34,7 +40,7 @@ class MyTCPHandler(socketserver.StreamRequestHandler):
                 bad = False
                 for x in range(0, len(data_bytes), 16):
                     if data_bytes[x:x+16] in [flag_encrypted[0:16], flag_encrypted[16:32]]:
-                        output.write("You're not allowed to decrypt that!\n".encode())
+                        output.write("Not so fast! You're not allowed to decrypt that!\n".encode())
                         bad = True
                         break
                 if bad:

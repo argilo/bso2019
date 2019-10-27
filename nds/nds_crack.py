@@ -17,14 +17,14 @@ def read_until(s, msg):
 
 def nds_cipher(s, msg):
     s.send((msg.hex() + "\n").encode())
-    data = read_until(s, b"Input? ").decode()
+    data = read_until(s, b"input? ").decode()
     return bytes.fromhex(data.split("\n")[0])
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
-data = read_until(s, b"Input? ").decode()
-ciphertext = bytes.fromhex(data.split("\n")[1])
+data = read_until(s, b"input? ").decode()
+ciphertext = bytes.fromhex(data.split("\n")[4])
 
 cracked_key = [0] * 256
 for key_byte in range(256):
