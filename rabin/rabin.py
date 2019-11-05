@@ -65,26 +65,62 @@ def mod_sqrt(a, p, q):
     )
 
 
+class RabinPrivateKey:
+    def __init__(self, p, q):
+        self.p = p
+        self.q = q
+        self.crt_coeff_1 = p * mul_inv(p, q)
+        self.crt_coeff_2 = q * mul_inv(q, p)
+
+    def _crt(self, a, b):
+        return (a * self.crt_coeff_1 + b * self.crt_coeff_2) % (self.p * self.q)
+
+    def _mod_sqrt(self, c):
+        root_p = pow(c % self.p, (self.p + 1) // 4, self.p)
+        root_q = pow(c % self.q, (self.q + 1) // 4, self.q)
+        return (
+            self._crt(root_p, root_q),
+            self._crt(self.p - root_p, root_q),
+            self._crt(root_p, self.q - root_q),
+            self._crt(self.p - root_p, self.q - root_q)
+        )
+
+    def decrypt(self, ciphertext):
+        roots = self._mod_sqrt(ciphertext)
+        for root in roots:
+            redundant_message = root.to_bytes(2048 // 8, byteorder="big")
+            if redundant_message[-2:-1] == redundant_message[-1:]:
+                message = redundant_message[:-1]
+                return message
+        return None
+
+    def public_key(self):
+        return RabinPublicKey(self.p * self.q)
+
+
+class RabinPublicKey:
+    def __init__(self, n):
+        self.n = n
+
+    def encrypt(self, message):
+        redundant_message = message + message[-1:]
+        m = int.from_bytes(redundant_message, byteorder="big")
+        return pow(m, 2, self.n)
+
+
 def rabin_keygen(bits):
     p = random_prime_3mod4(bits // 2)
     q = random_prime_3mod4(bits // 2)
-    return p, q
+    return RabinPrivateKey(p, q)
 
 
-def rabin_encrypt(message, n):
-    m = int.from_bytes(message.encode(), byteorder="big")
-    return pow(m, 2, n)
+private_key = rabin_keygen(2048)
+public_key = private_key.public_key()
 
-
-def rabin_decrypt(ciphertext, p, q):
-    roots = mod_sqrt(ciphertext, p, q)
-    for root in roots:
-        message = root.to_bytes(2048 // 8, byteorder="big")
-        if message[0:4] == bytes([0] * 4):
-            return message
-    return None
-
-
-p, q = rabin_keygen(2048)
-c = rabin_encrypt("Hello world!", p * q)
-print(rabin_decrypt(c * 4, p, q))
+n = 0
+for x in range(100000):
+    c = public_key.encrypt(("Hello world!" + str(x)).encode())
+    message = private_key.decrypt(c)
+    if message[0:4] != bytes([0] * 4):
+        n += 1
+        print(x, x / n)
