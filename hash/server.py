@@ -12,9 +12,11 @@ print(rsa.verify(message[:-1], signature, public_key))
 
 app = flask.Flask(__name__)
 
+
 @app.route("/")
 def home():
     return "Hello world"
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0")

@@ -4,8 +4,10 @@ import hashlib
 
 HASH_BYTES = 6
 
+
 def hash(b):
     return hashlib.sha256(b).digest()[:HASH_BYTES]
+
 
 x0 = bytes([0] * HASH_BYTES)
 
