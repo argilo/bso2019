@@ -30,13 +30,13 @@ def sign(message, private_key):
     n = private_key.public_key().public_numbers().n
     key_bytes = private_key.key_size // 8
     padded_hash = _pkcs1v15_pad(message, key_bytes)
-    return pow(int.from_bytes(padded_hash, byteorder='big'), d, n).to_bytes(key_bytes, byteorder='big')
+    return pow(int.from_bytes(padded_hash, byteorder="big"), d, n).to_bytes(key_bytes, byteorder="big")
 
 
 def verify(message, signature, public_key):
     e = public_key.public_numbers().e
     n = public_key.public_numbers().n
     key_bytes = public_key.key_size // 8
-    padded_hash = pow(int.from_bytes(signature, byteorder='big'), e, n).to_bytes(key_bytes, byteorder='big')
+    padded_hash = pow(int.from_bytes(signature, byteorder="big"), e, n).to_bytes(key_bytes, byteorder="big")
     expected_padded_hash = _pkcs1v15_pad(message, key_bytes)
     return constant_time.bytes_eq(padded_hash, expected_padded_hash)
