@@ -7,13 +7,13 @@ import rsa
 
 public_key, private_key = rsa.keygen(1024)
 
-app = flask.Flask(__name__)
+app = flask.Flask(__name__, static_url_path="/static")
 
 
 @app.route("/")
 def home():
     text = flask.request.args.get("text", "")
-    command = f"echo {shlex.quote(text)}"
+    command = f"convert -background lightblue -fill blue -pointsize 40 -size 320x -gravity Center {shlex.quote('caption:' + text)} static/meme.png"
     signature = rsa.sign(command.encode(), private_key).hex()
     return flask.render_template("index.html", text=text, command=command, signature=signature)
 
