@@ -20,7 +20,7 @@
           if (this.readyState == 4 && this.status == 200) {
             const result = document.getElementById("result");
             const img = document.createElement("img");
-            img.setAttribute("src", "/static/meme.png?" + Math.random());
+            img.setAttribute("src", this.responseText);
             result.appendChild(img);
           }
         };

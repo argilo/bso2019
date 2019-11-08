@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 
-import os
+import base64
 import shlex
+import subprocess
 import flask
 import rsa
 
 public_key, private_key = rsa.keygen(1024)
 
-app = flask.Flask(__name__, static_url_path="/static")
+app = flask.Flask(__name__)
 
 
 @app.route("/")
 def home():
     text = flask.request.args.get("text", "")
-    command = f"convert -background lightblue -fill blue -pointsize 40 -size 320x -gravity Center {shlex.quote('caption:' + text)} static/meme.png"
+    command = f"convert -background lightblue -fill blue -pointsize 40 -size 320x -gravity Center {shlex.quote('caption:' + text)} png:-"
     signature = rsa.sign(command.encode(), private_key).hex()
     return flask.render_template("index.html", text=text, command=command, signature=signature)
 
@@ -36,8 +37,9 @@ def run_command():
     if not rsa.verify(command.encode(), signature, public_key):
         return "bad signature", 401
 
-    os.system(command)
-    return "OK"
+    png = subprocess.check_output(command, shell=True)
+    result = b"data:image/png;base64," + base64.b64encode(png)
+    return flask.Response(result, mimetype="text/plain")
 
 
 if __name__ == "__main__":
