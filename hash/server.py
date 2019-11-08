@@ -4,7 +4,7 @@ import os
 import flask
 import rsa
 
-public_key, private_key = rsa.keygen(2048)
+public_key, private_key = rsa.keygen(1024)
 
 app = flask.Flask(__name__)
 
