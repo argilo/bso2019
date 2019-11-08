@@ -12,7 +12,7 @@
 
     {% if text %}
       <form action="/api/run_command" method="post">
-        <input type="hidden" name="command" value="{{ text }}" size="50">
+        <input type="hidden" name="command" value="{{ command }}" size="50">
         <input type="hidden" name="signature" value="{{ signature }}" size="50">
         <button type="submit">Submit</button>
       </form>

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import shlex
 import flask
 import rsa
 
@@ -12,8 +13,9 @@ app = flask.Flask(__name__)
 @app.route("/")
 def home():
     text = flask.request.args.get("text", "")
-    signature = rsa.sign(text.encode(), private_key).hex()
-    return flask.render_template("index.html", text=text, signature=signature)
+    command = f"echo {shlex.quote(text)}"
+    signature = rsa.sign(command.encode(), private_key).hex()
+    return flask.render_template("index.html", text=text, command=command, signature=signature)
 
 
 @app.route("/api/run_command", methods=["POST"])
