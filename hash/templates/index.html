@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+  </head>
+  <body>
+    <form action="/" method="get">
+      <input type="text" name="text" value="{{ text }}" size="50">
+      <button type="submit">Submit</button>
+    </form>
+
+    {% if text %}
+      <form action="/api/run_command" method="post">
+        <input type="hidden" name="command" value="{{ text }}" size="50">
+        <input type="hidden" name="signature" value="{{ signature }}" size="50">
+        <button type="submit">Submit</button>
+      </form>
+    {% endif %}
+  </body>
+</html>
