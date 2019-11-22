@@ -1,0 +1,13 @@
+1. NBFM flag{nnsxekejjtllolnz}
+2. WBFM mono flag{erbotarllkuxkgkf}
+3. WBFM stereo flag{pshcxvrwyuztgfbu}
+4. WBFM RDS flag{ffdghydjgtnlkmgr}
+5. AM flag{ywkscicxidtxbmyv}
+6. USB flag{dkjsutzyckiwrhni}
+7. LSB flag{xnsuvlucworitbdy}
+8. CW flag{itelilelcsemzpcc}
+9. DMR flag{kupfievkypgerlea}
+10. APRS flag{1200_b4uD_sh0ulD_b3_en0ugH_f0R_4ny0Ne}
+11. PSK31 flag{}
+12. LoRa flag{}
+13. RTTY flag{}
