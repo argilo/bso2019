@@ -1,0 +1,4 @@
+set frequency 441.0M
+set txvga1 -4
+set txvga2 25
+cal dc tx

@@ -1,13 +1,16 @@
-1. NBFM flag{nnsxekejjtllolnz}
-2. WBFM mono flag{erbotarllkuxkgkf}
-3. WBFM stereo flag{pshcxvrwyuztgfbu}
-4. WBFM RDS flag{ffdghydjgtnlkmgr}
-5. AM flag{ywkscicxidtxbmyv}
-6. USB flag{dkjsutzyckiwrhni}
-7. LSB flag{xnsuvlucworitbdy}
-8. CW flag{itelilelcsemzpcc}
-9. DMR flag{kupfievkypgerlea}
-10. APRS flag{1200_b4uD_sh0ulD_b3_en0ugH_f0R_4ny0Ne}
-11. PSK31 flag{}
+This is VE3IRR. For signal identification challenge number X, the flag is:
+
+1. NBFM flag{nnsxekejjtllolnz} DONE
+2. WBFM mono flag{erbotarllkuxkgkf} DONE
+3. WBFM stereo flag{pshcxvrwyuztgfbu} DONE
+4. WBFM RDS Signal identification challenge 4: flag{rad1O_d4ta_5yst3M} DONE
+5. AM flag{ywkscicxidtxbmyv} DONE
+6. USB flag{dkjsutzyckiwrhni} DONE
+7. LSB flag{xnsuvlucworitbdy} DONE
+8. CW This is VE3IRR   -   For signal identification challenge 8 the flag is itelilelcsemzpcc   -   DONE
+9. DMR flag{kupfievkypgerlea} DONE
+10. APRS Signal identification challenge #10: flag{1200_b4uD_sh0ulD_b3_en0ugH_f0R_4ny0Ne} DONE
+11. PSK31 Signal identification challenge #11: flag{no_31_b4uD_i5_en0ugH} DONE
+
 12. LoRa flag{}
 13. RTTY flag{}
