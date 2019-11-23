@@ -116,6 +116,12 @@ class multi_tx(gr.top_block, Qt.QWidget):
                 taps=None,
                 fractional_bw=None,
         )
+        self.rational_resampler_xxx_0_0_0 = filter.rational_resampler_ccc(
+                interpolation=50,
+                decimation=1,
+                taps=None,
+                fractional_bw=None,
+        )
         self.rational_resampler_xxx_0_0 = filter.rational_resampler_ccc(
                 interpolation=samp_rate / audio_rate / 4,
                 decimation=1,
@@ -300,6 +306,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.blocks_rotator_cc_2_0_0 = blocks.rotator_cc(-14e3 * 2 * math.pi / audio_rate)
         self.blocks_rotator_cc_2_0 = blocks.rotator_cc(20e3 * 2 * math.pi / audio_rate)
         self.blocks_rotator_cc_2 = blocks.rotator_cc(0e3 * 2 * math.pi / audio_rate)
+        self.blocks_rotator_cc_1_1_0_0 = blocks.rotator_cc(400e3 * 2 * math.pi / samp_rate)
         self.blocks_rotator_cc_1_1_0 = blocks.rotator_cc(-150e3 * 2 * math.pi / samp_rate)
         self.blocks_rotator_cc_1_1 = blocks.rotator_cc(-250e3 * 2 * math.pi / samp_rate)
         self.blocks_rotator_cc_1_0 = blocks.rotator_cc(500e3 * 2 * math.pi / samp_rate)
@@ -308,14 +315,17 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.blocks_repeat_1 = blocks.repeat(gr.sizeof_gr_complex*1, 36086*2)
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_gr_complex*1, int(1.2 * audio_rate / wpm))
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.13, ))
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.12, ))
         self.blocks_float_to_complex_0_0_0 = blocks.float_to_complex(1)
         self.blocks_float_to_complex_0_0 = blocks.float_to_complex(1)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
+        self.blocks_file_source_1 = blocks.file_source(gr.sizeof_char*1, '/home/argilo/Documents/bso2019/sigid/pocsag.dat', True)
+        self.blocks_file_source_1.set_begin_tag(pmt.PMT_NIL)
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/home/argilo/Documents/bso2019/sigid/dmr.c32', True)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
         self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1, '/home/argilo/Documents/bso2019/sigid/sigid.c32', False)
         self.blocks_file_sink_0.set_unbuffered(False)
+        self.blocks_char_to_float_0 = blocks.char_to_float(1, 1)
         self.blocks_add_xx_1 = blocks.add_vcc(1)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.blocks_add_const_vxx_0 = blocks.add_const_vcc((0.5, ))
@@ -337,6 +347,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         	max_dev=5e3,
         	fh=-1.0,
                 )
+        self.analog_frequency_modulator_fc_0 = analog.frequency_modulator_fc(2.0 * math.pi * 4500 / 38400)
         self.analog_const_source_x_0_0_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 0)
         self.analog_const_source_x_0_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 0)
         self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 0)
@@ -349,6 +360,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.connect((self.analog_const_source_x_0, 0), (self.blocks_float_to_complex_0, 1))
         self.connect((self.analog_const_source_x_0_0, 0), (self.blocks_float_to_complex_0_0, 1))
         self.connect((self.analog_const_source_x_0_0_0, 0), (self.blocks_float_to_complex_0_0_0, 1))
+        self.connect((self.analog_frequency_modulator_fc_0, 0), (self.rational_resampler_xxx_0_0_0, 0))
         self.connect((self.analog_nbfm_tx_0, 0), (self.rational_resampler_xxx_1, 0))
         self.connect((self.analog_nbfm_tx_0_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.band_pass_filter_0, 0), (self.blocks_rotator_cc_2_0_0, 0))
@@ -357,7 +369,9 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.blocks_add_xx_1, 0), (self.qtgui_freq_sink_x_1, 0))
         self.connect((self.blocks_add_xx_1, 0), (self.rational_resampler_xxx_2, 0))
+        self.connect((self.blocks_char_to_float_0, 0), (self.analog_frequency_modulator_fc_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.freq_xlating_fir_filter_xxx_0, 0))
+        self.connect((self.blocks_file_source_1, 0), (self.blocks_char_to_float_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.low_pass_filter_1, 0))
         self.connect((self.blocks_float_to_complex_0_0, 0), (self.band_pass_filter_0_0, 0))
         self.connect((self.blocks_float_to_complex_0_0_0, 0), (self.band_pass_filter_0, 0))
@@ -372,6 +386,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_rotator_cc_1_0, 0), (self.blocks_add_xx_0, 4))
         self.connect((self.blocks_rotator_cc_1_1, 0), (self.blocks_add_xx_0, 2))
         self.connect((self.blocks_rotator_cc_1_1_0, 0), (self.blocks_add_xx_0, 3))
+        self.connect((self.blocks_rotator_cc_1_1_0_0, 0), (self.blocks_add_xx_0, 5))
         self.connect((self.blocks_rotator_cc_2, 0), (self.blocks_add_xx_1, 0))
         self.connect((self.blocks_rotator_cc_2_0, 0), (self.blocks_add_xx_1, 1))
         self.connect((self.blocks_rotator_cc_2_0_0, 0), (self.blocks_add_xx_1, 2))
@@ -394,6 +409,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.connect((self.ham_varicode_tx_0, 0), (self.digital_map_bb_0, 0))
         self.connect((self.low_pass_filter_1, 0), (self.blocks_add_const_vxx_0, 0))
         self.connect((self.rational_resampler_xxx_0_0, 0), (self.blocks_rotator_cc_1_1_0, 0))
+        self.connect((self.rational_resampler_xxx_0_0_0, 0), (self.blocks_rotator_cc_1_1_0_0, 0))
         self.connect((self.rational_resampler_xxx_1, 0), (self.blocks_rotator_cc_1, 0))
         self.connect((self.rational_resampler_xxx_1_0, 0), (self.blocks_rotator_cc_1_1, 0))
         self.connect((self.rational_resampler_xxx_2, 0), (self.blocks_rotator_cc_1_0, 0))
@@ -440,6 +456,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
+        self.blocks_rotator_cc_1_1_0_0.set_phase_inc(400e3 * 2 * math.pi / self.samp_rate)
         self.blocks_rotator_cc_1_1_0.set_phase_inc(-150e3 * 2 * math.pi / self.samp_rate)
         self.blocks_rotator_cc_1_1.set_phase_inc(-250e3 * 2 * math.pi / self.samp_rate)
         self.blocks_rotator_cc_1_0.set_phase_inc(500e3 * 2 * math.pi / self.samp_rate)
