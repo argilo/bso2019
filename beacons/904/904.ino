@@ -5,7 +5,7 @@
 #define RFM69_RST     4
 #define LED           13
 
-char* message = "ve3irr   fnn beacon 1   the flag is glockenspiel";
+char* message = "this is ve3irr   -   the flag is shuffleboard   -   ";
 unsigned long dit_len = 120;
 
 RFM69OOK radio(RFM69_CS, RFM69_INT, true, 0);
@@ -13,7 +13,7 @@ RFM69OOK radio(RFM69_CS, RFM69_INT, true, 0);
 void setup() {
   radio.initialize();
   radio.transmitBegin();
-  radio.setFrequencyMHz(432.95);
+  radio.setFrequencyMHz(903.95);
   radio.setPowerLevel(20);
   pinMode(LED_BUILTIN, OUTPUT);
 }
@@ -83,9 +83,9 @@ void loop() {
       case '7': dah(); dah(); dit(); dit(); dit(); break;
       case '8': dah(); dah(); dah(); dit(); dit(); break;
       case '9': dah(); dah(); dah(); dah(); dit(); break;
+      case '-': dah(); dit(); dit(); dit(); dit(); dah(); break;
       default: space();
     }
     end();
   }
-  delay(dit_len * 20);
 }
