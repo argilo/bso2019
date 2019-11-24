@@ -7,7 +7,7 @@ This is VE3IRR. For signal identification challenge number X, the flag is:
 5. AM flag{ywkscicxidtxbmyv} DONE
 6. USB flag{dkjsutzyckiwrhni} DONE
 7. LSB flag{xnsuvlucworitbdy} DONE
-8. CW This is VE3IRR   -   For signal identification challenge 8 the flag is itelilelcsemzpcc   -   DONE
+8. CW This is VE3IRR   -   For signal identification challenge 8 the flag is itelilelcsemzpcc DONE
 9. DMR flag{kupfievkypgerlea} DONE
 10. APRS Signal identification challenge #10: flag{1200_b4uD_sh0ulD_b3_en0ugH_f0R_4ny0Ne} DONE
 11. PSK31 Signal identification challenge #11: flag{no_31_b4uD_i5_en0ugH} DONE
