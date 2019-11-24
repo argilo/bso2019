@@ -12,6 +12,7 @@ This is VE3IRR. For signal identification challenge number X, the flag is:
 10. APRS Signal identification challenge #10: flag{1200_b4uD_sh0ulD_b3_en0ugH_f0R_4ny0Ne} DONE
 11. PSK31 Signal identification challenge #11: flag{no_31_b4uD_i5_en0ugH} DONE
 12. POCSAG Signal identification challenge #12: flag{b4cK_to_pag3_0n3} DONE
+13. SSTV Signal identification challenge #13: flag{sl0w_en0uGh_f0r_U}
 
 12. LoRa flag{}
 13. RTTY flag{}

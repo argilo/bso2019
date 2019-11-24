@@ -104,6 +104,12 @@ class multi_tx(gr.top_block, Qt.QWidget):
                 taps=None,
                 fractional_bw=None,
         )
+        self.rational_resampler_xxx_1_1 = filter.rational_resampler_ccc(
+                interpolation=samp_rate / audio_rate / 2,
+                decimation=1,
+                taps=None,
+                fractional_bw=None,
+        )
         self.rational_resampler_xxx_1_0 = filter.rational_resampler_ccc(
                 interpolation=samp_rate / audio_rate / 2,
                 decimation=1,
@@ -291,6 +297,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
           log=False,
           )
         self.digital_map_bb_0 = digital.map_bb(([1,0]))
+        self.blocks_wavfile_source_1_1 = blocks.wavfile_source('/home/argilo/Documents/bso2019/sigid/area52.wav', True)
         self.blocks_wavfile_source_1_0 = blocks.wavfile_source('/home/argilo/Documents/bso2019/sigid/flag2-3.wav', True)
         self.blocks_wavfile_source_1 = blocks.wavfile_source('/home/argilo/Documents/bso2019/sigid/flag1.wav', True)
         self.blocks_wavfile_source_0_1_0 = blocks.wavfile_source('/home/argilo/Documents/bso2019/sigid/flag6.wav', True)
@@ -306,6 +313,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.blocks_rotator_cc_2_0_0 = blocks.rotator_cc(-14e3 * 2 * math.pi / audio_rate)
         self.blocks_rotator_cc_2_0 = blocks.rotator_cc(20e3 * 2 * math.pi / audio_rate)
         self.blocks_rotator_cc_2 = blocks.rotator_cc(0e3 * 2 * math.pi / audio_rate)
+        self.blocks_rotator_cc_1_2 = blocks.rotator_cc(-500e3 * 2 * math.pi / samp_rate)
         self.blocks_rotator_cc_1_1_0_0 = blocks.rotator_cc(400e3 * 2 * math.pi / samp_rate)
         self.blocks_rotator_cc_1_1_0 = blocks.rotator_cc(-150e3 * 2 * math.pi / samp_rate)
         self.blocks_rotator_cc_1_1 = blocks.rotator_cc(-250e3 * 2 * math.pi / samp_rate)
@@ -333,6 +341,13 @@ class multi_tx(gr.top_block, Qt.QWidget):
         	1, audio_rate, -2800, -200, 200, firdes.WIN_HAMMING, 6.76))
         self.band_pass_filter_0 = filter.interp_fir_filter_ccc(1, firdes.complex_band_pass(
         	1, audio_rate, 200, 2800, 200, firdes.WIN_HAMMING, 6.76))
+        self.analog_nbfm_tx_0_1 = analog.nbfm_tx(
+        	audio_rate=audio_rate,
+        	quad_rate=audio_rate * 2,
+        	tau=75e-6,
+        	max_dev=5e3,
+        	fh=-1.0,
+                )
         self.analog_nbfm_tx_0_0 = analog.nbfm_tx(
         	audio_rate=audio_rate,
         	quad_rate=audio_rate * 2,
@@ -363,6 +378,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.connect((self.analog_frequency_modulator_fc_0, 0), (self.rational_resampler_xxx_0_0_0, 0))
         self.connect((self.analog_nbfm_tx_0, 0), (self.rational_resampler_xxx_1, 0))
         self.connect((self.analog_nbfm_tx_0_0, 0), (self.blocks_multiply_xx_0, 1))
+        self.connect((self.analog_nbfm_tx_0_1, 0), (self.rational_resampler_xxx_1_1, 0))
         self.connect((self.band_pass_filter_0, 0), (self.blocks_rotator_cc_2_0_0, 0))
         self.connect((self.band_pass_filter_0_0, 0), (self.blocks_rotator_cc_2_0, 0))
         self.connect((self.blocks_add_const_vxx_0, 0), (self.blocks_rotator_cc_2, 0))
@@ -387,6 +403,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_rotator_cc_1_1, 0), (self.blocks_add_xx_0, 2))
         self.connect((self.blocks_rotator_cc_1_1_0, 0), (self.blocks_add_xx_0, 3))
         self.connect((self.blocks_rotator_cc_1_1_0_0, 0), (self.blocks_add_xx_0, 5))
+        self.connect((self.blocks_rotator_cc_1_2, 0), (self.blocks_add_xx_0, 6))
         self.connect((self.blocks_rotator_cc_2, 0), (self.blocks_add_xx_1, 0))
         self.connect((self.blocks_rotator_cc_2_0, 0), (self.blocks_add_xx_1, 1))
         self.connect((self.blocks_rotator_cc_2_0_0, 0), (self.blocks_add_xx_1, 2))
@@ -403,6 +420,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_wavfile_source_1, 0), (self.analog_nbfm_tx_0, 0))
         self.connect((self.blocks_wavfile_source_1_0, 0), (self.rds_tx_0, 0))
         self.connect((self.blocks_wavfile_source_1_0, 1), (self.rds_tx_0, 1))
+        self.connect((self.blocks_wavfile_source_1_1, 0), (self.analog_nbfm_tx_0_1, 0))
         self.connect((self.digital_map_bb_0, 0), (self.blocks_unpacked_to_packed_xx_0, 0))
         self.connect((self.digital_psk_mod_0, 0), (self.rational_resampler_xxx_3, 0))
         self.connect((self.freq_xlating_fir_filter_xxx_0, 0), (self.rational_resampler_xxx_0_0, 0))
@@ -412,6 +430,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.connect((self.rational_resampler_xxx_0_0_0, 0), (self.blocks_rotator_cc_1_1_0_0, 0))
         self.connect((self.rational_resampler_xxx_1, 0), (self.blocks_rotator_cc_1, 0))
         self.connect((self.rational_resampler_xxx_1_0, 0), (self.blocks_rotator_cc_1_1, 0))
+        self.connect((self.rational_resampler_xxx_1_1, 0), (self.blocks_rotator_cc_1_2, 0))
         self.connect((self.rational_resampler_xxx_2, 0), (self.blocks_rotator_cc_1_0, 0))
         self.connect((self.rational_resampler_xxx_3, 0), (self.blocks_rotator_cc_2_0_0_0_0, 0))
         self.connect((self.rds_tx_0, 0), (self.blocks_rotator_cc_0, 0))
@@ -456,6 +475,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
+        self.blocks_rotator_cc_1_2.set_phase_inc(-500e3 * 2 * math.pi / self.samp_rate)
         self.blocks_rotator_cc_1_1_0_0.set_phase_inc(400e3 * 2 * math.pi / self.samp_rate)
         self.blocks_rotator_cc_1_1_0.set_phase_inc(-150e3 * 2 * math.pi / self.samp_rate)
         self.blocks_rotator_cc_1_1.set_phase_inc(-250e3 * 2 * math.pi / self.samp_rate)
