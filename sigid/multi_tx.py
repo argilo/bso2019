@@ -326,7 +326,7 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_gr_complex*1, int(1.2 * audio_rate / wpm))
         self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.12, ))
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc((0.11, ))
         self.blocks_float_to_complex_0_0_0 = blocks.float_to_complex(1)
         self.blocks_float_to_complex_0_0 = blocks.float_to_complex(1)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
@@ -341,9 +341,9 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.blocks_add_const_vxx_0 = blocks.add_const_vcc((0.5, ))
         self.band_pass_filter_0_0 = filter.interp_fir_filter_ccc(1, firdes.complex_band_pass(
-        	1, audio_rate, -2800, -200, 200, firdes.WIN_HAMMING, 6.76))
+        	5, audio_rate, -2800, -200, 200, firdes.WIN_HAMMING, 6.76))
         self.band_pass_filter_0 = filter.interp_fir_filter_ccc(1, firdes.complex_band_pass(
-        	1, audio_rate, 200, 2800, 200, firdes.WIN_HAMMING, 6.76))
+        	5, audio_rate, 200, 2800, 200, firdes.WIN_HAMMING, 6.76))
         self.analog_nbfm_tx_0_1 = analog.nbfm_tx(
         	audio_rate=audio_rate,
         	quad_rate=audio_rate * 2,
@@ -464,8 +464,8 @@ class multi_tx(gr.top_block, Qt.QWidget):
         self.blocks_rotator_cc_2_0.set_phase_inc(20e3 * 2 * math.pi / self.audio_rate)
         self.blocks_rotator_cc_2.set_phase_inc(0e3 * 2 * math.pi / self.audio_rate)
         self.blocks_repeat_0.set_interpolation(int(1.2 * self.audio_rate / self.wpm))
-        self.band_pass_filter_0_0.set_taps(firdes.complex_band_pass(1, self.audio_rate, -2800, -200, 200, firdes.WIN_HAMMING, 6.76))
-        self.band_pass_filter_0.set_taps(firdes.complex_band_pass(1, self.audio_rate, 200, 2800, 200, firdes.WIN_HAMMING, 6.76))
+        self.band_pass_filter_0_0.set_taps(firdes.complex_band_pass(5, self.audio_rate, -2800, -200, 200, firdes.WIN_HAMMING, 6.76))
+        self.band_pass_filter_0.set_taps(firdes.complex_band_pass(5, self.audio_rate, 200, 2800, 200, firdes.WIN_HAMMING, 6.76))
 
     def get_wpm(self):
         return self.wpm
