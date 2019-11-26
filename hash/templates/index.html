@@ -2,14 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>title</title>
+    <title>Meme Generator</title>
   </head>
   <body>
-    <form action="/" method="get">
-      <input type="text" name="left" value="{{ left }}" size="50">
-      <input type="text" name="right" value="{{ right }}" size="50">
-      <button type="submit">Submit</button>
-    </form>
+    <h1>Meme Generator</h1>
+
+    <p>
+      <form action="/" method="get">
+        <input type="text" name="left" value="{{ left }}" placeholder="Left text" size="49">
+        <input type="text" name="right" value="{{ right }}" placeholder="Right text" size="49">
+        <button type="submit">Generate</button>
+      </form>
+    </p>
 
     {% if left and right %}
       <script data-command="{{ command }}" data-signature="{{ signature }}">
