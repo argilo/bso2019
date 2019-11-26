@@ -13,10 +13,11 @@ app = flask.Flask(__name__)
 
 @app.route("/")
 def home():
-    text = flask.request.args.get("text", "")
-    command = f"convert -background lightblue -fill blue -pointsize 40 -size 320x -gravity Center {shlex.quote('caption:' + text)} png:-"
+    left = flask.request.args.get("left", "")
+    right = flask.request.args.get("right", "")
+    command = f"convert womancat.jpg \( -pointsize 40 -size 504x -gravity Center {shlex.quote('caption:' + left)} {shlex.quote('caption:' + right)} +append \) -gravity Center -append png:-"
     signature = rsa.sign(command.encode(), private_key).hex()
-    return flask.render_template("index.html", text=text, command=command, signature=signature)
+    return flask.render_template("index.html", left=left, right=right, command=command, signature=signature)
 
 
 @app.route("/api/run_command", methods=["POST"])

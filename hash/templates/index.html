@@ -6,11 +6,12 @@
   </head>
   <body>
     <form action="/" method="get">
-      <input type="text" name="text" value="{{ text }}" size="50">
+      <input type="text" name="left" value="{{ left }}" size="50">
+      <input type="text" name="right" value="{{ right }}" size="50">
       <button type="submit">Submit</button>
     </form>
 
-    {% if text %}
+    {% if left and right %}
       <script data-command="{{ command }}" data-signature="{{ signature }}">
         const command = encodeURIComponent(document.currentScript.dataset.command);
         const signature = encodeURIComponent(document.currentScript.dataset.signature);
