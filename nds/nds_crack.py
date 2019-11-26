@@ -4,7 +4,7 @@ import nds
 import os
 import socket
 
-HOST = "54.173.197.50"
+HOST = "oldschool.area52.airforce"
 PORT = 9999
 
 

@@ -1,4 +1,3 @@
 Old school cipher
 
-ip: 54.173.197.50
-port: 9999
+oldschool.area52.airforce:9999
