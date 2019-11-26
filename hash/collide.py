@@ -11,7 +11,7 @@ def hash(message):
     return hashlib.sha256(message).digest()[0:6]
 
 
-with urllib.request.urlopen(f"http://localhost:5000/?text=foobar") as f:
+with urllib.request.urlopen(f"http://localhost:5000/?left=foobar&right=baz") as f:
     cmd = f.read().decode().split('data-command="')[1].split('"')[0]
 
 seen = {}
@@ -30,7 +30,7 @@ while True:
             break
         x += 1
 
-    with urllib.request.urlopen(f"http://{server}/?text={seen[h]}") as f:
+    with urllib.request.urlopen(f"http://{server}/?left={seen[h]}&right=baz") as f:
         sig = f.read().decode().split('data-signature="')[1].split('"')[0]
 
     data = urllib.parse.urlencode({"command": command, "signature": sig}).encode()
