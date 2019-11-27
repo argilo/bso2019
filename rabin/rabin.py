@@ -5,6 +5,7 @@ import random
 
 
 def is_prime(n):
+    """Check whether n is a prime number"""
     r = 0
     d = n - 1
     while d % 2 == 0:
@@ -27,6 +28,13 @@ def is_prime(n):
 
 
 def next_prime_3mod4(n):
+    """
+    Return the first prime greater than or equal to n that is also congruent
+    to 3 modulo 4.
+
+    Aguments:
+    n -- the starting point for the search. Must be congruent to 3 modulo 4.
+    """
     while True:
         if is_prime(n):
             return n
@@ -34,11 +42,18 @@ def next_prime_3mod4(n):
 
 
 def random_prime_3mod4(bits):
+    """
+    Return a random prime that is congruent to 3 modulo 4
+
+    Arguments:
+    bits -- length of the prime in bits. Must be a multiple of 8.
+    """
     x = int.from_bytes(os.urandom(bits // 8), byteorder="big")
     return next_prime_3mod4(x | (1 << (bits - 1)) | 3)
 
 
 def mul_inv(a, b):
+    """Compute the multiplicative inverse of a modulo b"""
     b0 = b
     x0, x1 = 0, 1
     while a > 1:
@@ -51,10 +66,21 @@ def mul_inv(a, b):
 
 
 def crt(a, b, m, n):
+    """
+    Compute a number that is congruent to a modulo m, and b modulo n.
+
+    By the Chinese Remainder Theorem, such a number must exist, as long
+    as m and n are coprime.
+    """
     return ((a * n * mul_inv(n, m)) + (b * m * mul_inv(m, n))) % (m * n)
 
 
 def mod_sqrt(a, p, q):
+    """
+    Compute the four square roots of a modulo p*q.
+
+    Both p and q must be congruent to 3 modulo 4.
+    """
     root_p = pow(a % p, (p + 1) // 4, p)
     root_q = pow(a % q, (q + 1) // 4, q)
     return (
@@ -114,13 +140,14 @@ def rabin_keygen(bits):
     return RabinPrivateKey(p, q)
 
 
-private_key = rabin_keygen(2048)
-public_key = private_key.public_key()
+if __name__ == "__main__":
+    private_key = rabin_keygen(2048)
+    public_key = private_key.public_key()
 
-n = 0
-for x in range(100000):
-    c = public_key.encrypt(("Hello world!" + str(x)).encode())
-    message = private_key.decrypt(c)
-    if message[0:4] != bytes([0] * 4):
-        n += 1
-        print(x, x / n)
+    n = 0
+    for x in range(100000):
+        c = public_key.encrypt(("Hello world!" + str(x)).encode())
+        message = private_key.decrypt(c)
+        if message[0:4] != bytes([0] * 4):
+            n += 1
+            print(x, x / n)
