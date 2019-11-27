@@ -7,13 +7,13 @@
   <body>
     <h1>Meme Generator</h1>
 
-    <p>
-      <form action="/" method="get">
+    <form action="/" method="get">
+      <p>
         <input type="text" name="left" value="{{ left }}" placeholder="Left text" size="49">
         <input type="text" name="right" value="{{ right }}" placeholder="Right text" size="49">
         <button type="submit">Generate</button>
-      </form>
-    </p>
+      </p>
+    </form>
 
     {% if left and right %}
       <script data-command="{{ command }}" data-signature="{{ signature }}">
