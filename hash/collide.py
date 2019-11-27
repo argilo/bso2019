@@ -4,14 +4,14 @@ import base64
 import hashlib
 import urllib.request
 
-server = "localhost:5000"
+server = "memegen.area52.airforce:5000"
 
 
 def hash(message):
     return hashlib.sha256(message).digest()[0:6]
 
 
-with urllib.request.urlopen(f"http://localhost:5000/?left=foobar&right=baz") as f:
+with urllib.request.urlopen(f"http://{server}/?left=foobar&right=baz") as f:
     cmd = f.read().decode().split('data-command="')[1].split('"')[0]
 
 seen = {}
