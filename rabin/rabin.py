@@ -134,20 +134,7 @@ class RabinPublicKey:
         return pow(m, 2, self.n)
 
 
-def rabin_keygen(bits):
+def keygen(bits):
     p = random_prime_3mod4(bits // 2)
     q = random_prime_3mod4(bits // 2)
     return RabinPrivateKey(p, q)
-
-
-if __name__ == "__main__":
-    private_key = rabin_keygen(2048)
-    public_key = private_key.public_key()
-
-    n = 0
-    for x in range(100000):
-        c = public_key.encrypt(("Hello world!" + str(x)).encode())
-        message = private_key.decrypt(c)
-        if message[0:4] != bytes([0] * 4):
-            n += 1
-            print(x, x / n)
