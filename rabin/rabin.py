@@ -95,8 +95,10 @@ class RabinPrivateKey:
     def __init__(self, p, q):
         self.p = p
         self.q = q
-        self.crt_coeff_1 = p * mul_inv(p, q)
-        self.crt_coeff_2 = q * mul_inv(q, p)
+        self.crt_coeff_1 = q * mul_inv(q, p)
+        self.crt_coeff_2 = p * mul_inv(p, q)
+        self.byte_length = ((p * q).bit_length() + 7) // 8
+
 
     def _crt(self, a, b):
         return (a * self.crt_coeff_1 + b * self.crt_coeff_2) % (self.p * self.q)
@@ -114,7 +116,7 @@ class RabinPrivateKey:
     def decrypt(self, ciphertext):
         roots = self._mod_sqrt(ciphertext)
         for root in roots:
-            redundant_message = root.to_bytes(2048 // 8, byteorder="big")
+            redundant_message = root.to_bytes(self.byte_length, byteorder="big")
             if redundant_message[-2:-1] == redundant_message[-1:]:
                 message = redundant_message[:-1]
                 return message
